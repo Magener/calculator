@@ -1,10 +1,8 @@
-//TODO: extract class as necessary.
-
 class Equation {
 
     constructor() {
         this.setLeftValue(0);
-        this.setOperationComputation((left, right) => 0);
+        this.setOperationComputation(() => 0);
     };
 
     solve(rightValue) {
