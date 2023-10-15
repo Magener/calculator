@@ -1,4 +1,7 @@
 import { shownNumberString, updateShownNumber, valueOfShownNumber, clearShownNumber } from "./shownNumber.js";
+import Equation from "./equation.js";
+
+const currentEquation = new Equation();
 
 document.addEventListener("DOMContentLoaded", () => {
     clearShownNumber();
@@ -8,17 +11,11 @@ document.addEventListener("DOMContentLoaded", () => {
     initializeOperationButtons();
 });
 
-
-
 const initializeOperationButtons = () => {
-    /*<button onclick="">+</button>
-<button onclick="evaluateEquation()">=</button> */
 
     initializeButton(document.getElementById("operations"), "=", () => {
-        solveEquation(valueOfShownNumber());
+        solveCurrentEquation(valueOfShownNumber());
     });
-
-    //TODO: add dynamic operation initialization through a mapping
 
     const operations = {
         "+": (left, right) => left + right,
@@ -33,25 +30,16 @@ const initializeOperationButtons = () => {
 
 };
 
-//TODO: extract class as necessary.
-let leftValue, operation;
-
-const solveEquation = (rightValue) => {
-    updateShownNumber(operation(leftValue, rightValue));
-    leftValue = 0;
+const solveCurrentEquation = (rightValue) => {
+    updateShownNumber(currentEquation.solve(rightValue));
 };
-
-const initializeOperation = (value, operationCallback) => {
-    leftValue = value;
-    operation = operationCallback;
-};
-
-
 
 //TODO: deal with the bug of the -
-const performOperation = (operation) => {
-    initializeOperation(valueOfShownNumber(), operation);
-    clearShownNumber();
+// with the same right value
+const performOperation = (operationComputation) => {
+    currentEquation.setLeftValue(valueOfShownNumber());
+    currentEquation.setOperationComputation(operationComputation);
+    clearShownNumber();// TODO: perform after adding an operation
 };
 
 const concatenateDigit = (value) => {
