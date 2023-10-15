@@ -1,11 +1,58 @@
-import { shownNumberString, updateShownNumber } from "./shownNumber.js";
+import { shownNumberString, updateShownNumber, valueOfShownNumber, clearShownNumber } from "./shownNumber.js";
 
 document.addEventListener("DOMContentLoaded", () => {
-    updateShownNumber('0');
+    clearShownNumber();
 
     initializeDigitButtons();
+
+    initializeOperationButtons();
 });
 
+
+
+const initializeOperationButtons = () => {
+    /*<button onclick="">+</button>
+<button onclick="evaluateEquation()">=</button> */
+
+    initializeButton(document.getElementById("operations"), "=", () => {
+        solveEquation(valueOfShownNumber());
+    });
+
+    //TODO: add dynamic operation initialization through a mapping
+
+    const operations = {
+        "+": (left, right) => left + right,
+        "-": (left, right) => left - right,
+        "*": (left, right) => left * right,
+        "/": (left, right) => left / right,
+    };
+
+    Object.entries(operations).forEach(([sign, operationComputation]) => {
+        initializeButton(document.getElementById("operations"), sign, () => performOperation(operationComputation));
+    });
+
+};
+
+//TODO: extract class as necessary.
+let leftValue, operation;
+
+const solveEquation = (rightValue) => {
+    updateShownNumber(operation(leftValue, rightValue));
+    leftValue = 0;
+};
+
+const initializeOperation = (value, operationCallback) => {
+    leftValue = value;
+    operation = operationCallback;
+};
+
+
+
+//TODO: deal with the bug of the -
+const performOperation = (operation) => {
+    initializeOperation(valueOfShownNumber(), operation);
+    clearShownNumber();
+};
 
 const concatenateDigit = (value) => {
     // TODO: ensure length is less than 10 to deal with a floating point bug.
@@ -13,12 +60,7 @@ const concatenateDigit = (value) => {
 };
 
 const initializeDigitButton = (digitValue) => {
-    const button = document.createElement("button");
-    button.textContent = digitValue;
-    button.addEventListener("click", () =>
-        concatenateDigit(digitValue)
-    );
-    document.getElementById("digits").appendChild(button);
+    initializeButton(document.getElementById("digits"), digitValue, () => concatenateDigit(digitValue));
 };
 
 const initializeDigitButtons = () => {
@@ -26,3 +68,11 @@ const initializeDigitButtons = () => {
 
     digits.forEach((digit) => initializeDigitButton(digit));
 };
+
+const initializeButton = (parentElement, textContent, clickCallback) => {
+    const button = document.createElement("button");
+    button.textContent = textContent;
+    button.addEventListener("click", () => clickCallback());
+
+    parentElement.appendChild(button);
+}

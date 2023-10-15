@@ -1,9 +1,12 @@
 let shownNumber;
 
-
 const updateShownNumber = (value) => {
     shownNumber = value;
     document.getElementById("shownNumber").textContent = valueOfShownNumber();
+};
+
+const clearShownNumber = () => {
+    updateShownNumber('0');
 };
 
 const valueOfShownNumber = () => {
@@ -16,5 +19,5 @@ const shownNumberString = () => {
 
 
 export {
-    shownNumberString, valueOfShownNumber, updateShownNumber
+    shownNumberString, valueOfShownNumber, updateShownNumber, clearShownNumber
 }
