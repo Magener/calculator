@@ -1,13 +1,25 @@
 <html>
-    <head>
-        <title>Calculator</title>
 
-        <link rel="stylesheet" href="calculator.css">
-    </head>
-    <body>
-        Hello World!
-    </body>
+<head>
+    <title>Calculator</title>
 
-    <script src="./calculator.js"></script>
+    <link rel="stylesheet" href="calculator.css">
+</head>
+
+<body>
+    <p id="shownNumber"></p>
+
+    <section id="numbers">
+        <button id="1" onclick="concatenateDigit('1')">1</button>
+        <button id="2" onclick="concatenateDigit('2')">2</button>
+    </section>
+
+    <section class="operations">
+        <button>+</button>
+        <button>=</button>
+    </section>
+</body>
+
+<script src="./calculator.js"></script>
 
 </html>
