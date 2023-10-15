@@ -43,8 +43,11 @@ const performOperation = (operationComputation) => {
 };
 
 const concatenateDigit = (value) => {
-    // TODO: ensure length is less than 10 to deal with a floating point bug.
-    updateShownNumber(shownNumberString() + value);
+    const MAX_CONCATINATION_DIGITS = 12; // TODO: how does that deal with exponential mode? (plaster but works for now)
+
+    if (shownNumberString().length < MAX_CONCATINATION_DIGITS) {
+        updateShownNumber(shownNumberString() + value);
+    }
 };
 
 const initializeDigitButton = (digitValue) => {
