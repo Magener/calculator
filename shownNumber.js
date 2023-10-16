@@ -1,12 +1,16 @@
 let shownNumber;
 
 const updateShownNumber = (value) => {
-    shownNumber = value;
+    if (value.length == 0) {
+        value = '0';
+    }    
+
+    shownNumber = value.toString();
     document.getElementById("shownNumber").textContent = valueOfShownNumber();
 };
 
 const clearShownNumber = () => {
-    updateShownNumber('0');
+    updateShownNumber('');
 };
 
 const valueOfShownNumber = () => {

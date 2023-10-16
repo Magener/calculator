@@ -1,69 +1,53 @@
 import { shownNumberString, updateShownNumber, valueOfShownNumber, clearShownNumber } from "./shownNumber.js";
+
+import { initializeOperationButtons, initializeDigitButtons } from "./buttons.js";
 import Equation from "./equation.js";
+import { concatenateDigit, removeLastDigit } from "./numberStringOperations.js";
 
 const currentEquation = new Equation();
+let repeatLastOperation = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    clearShownNumber();
-
-    initializeDigitButtons();
-
-    initializeOperationButtons();
-});
-
-const initializeOperationButtons = () => {
-
-    initializeButton(document.getElementById("operations"), "=", () => {
-        solveCurrentEquation(valueOfShownNumber());
-    });
-
-    const operations = {
+    const computationOperations = {
         "+": (left, right) => left + right,
         "-": (left, right) => left - right,
         "*": (left, right) => left * right,
         "/": (left, right) => left / right,
     };
 
-    Object.entries(operations).forEach(([sign, operationComputation]) => {
-        initializeButton(document.getElementById("operations"), sign, () => performOperation(operationComputation));
-    });
+    const equationManagementOperations = {
+        "=": solveCurrentEquation,
+        "C": () => updateShownNumber(removeLastDigit(shownNumberString())),
+        "CE": clearCurrentEquation
 
+    };
+
+    clearShownNumber();
+
+    initializeDigitButtons((newDigit) => updateShownNumber(concatenateDigit(shownNumberString(), newDigit)));
+
+    initializeOperationButtons(equationManagementOperations, computationOperations, selectOperation);
+});
+
+const clearCurrentEquation = () => {
+    clearShownNumber();
+    currentEquation.reset();
 };
 
-const solveCurrentEquation = (rightValue) => {
-    updateShownNumber(currentEquation.solve(rightValue));
+const solveCurrentEquation = () => {
+    let result = repeatLastOperation ? currentEquation.resolve() : currentEquation.solve(valueOfShownNumber());
+    
+    updateShownNumber(result);
+    currentEquation.setLeftValue(result);
+
+    repeatLastOperation = true;
 };
 
-//TODO: deal with the bug of the -
-// with the same right value
-const performOperation = (operationComputation) => {
+
+const selectOperation = (operationComputation) => {
     currentEquation.setLeftValue(valueOfShownNumber());
     currentEquation.setOperationComputation(operationComputation);
-    clearShownNumber();// TODO: perform after adding an operation
+    clearShownNumber();
+
+    repeatLastOperation = false;
 };
-
-const concatenateDigit = (value) => {
-    const MAX_CONCATINATION_DIGITS = 12; // TODO: how does that deal with exponential mode? (plaster but works for now)
-
-    if (shownNumberString().length < MAX_CONCATINATION_DIGITS) {
-        updateShownNumber(shownNumberString() + value);
-    }
-};
-
-const initializeDigitButton = (digitValue) => {
-    initializeButton(document.getElementById("digits"), digitValue, () => concatenateDigit(digitValue));
-};
-
-const initializeDigitButtons = () => {
-    let digits = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-
-    digits.forEach((digit) => initializeDigitButton(digit));
-};
-
-const initializeButton = (parentElement, textContent, clickCallback) => {
-    const button = document.createElement("button");
-    button.textContent = textContent;
-    button.addEventListener("click", () => clickCallback());
-
-    parentElement.appendChild(button);
-}
