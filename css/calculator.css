@@ -1,0 +1,50 @@
+:root {
+    --operationsPerColumn: 4;
+    --managementOperationsPerRow: 3;
+    --digitsPerRow: 3;
+}
+
+#calculator {
+    background-color: black;
+    padding: 3%;
+    padding-top: 1%;
+
+    width: 35%;
+
+    position: absolute;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
+
+#shownNumber {
+    background-color: lightgrey;
+    color: black;
+    text-align: right;
+    padding: 2%;
+    margin-top: 3%;
+
+    font-size: 3vw;
+
+    border-radius: 2vw;
+}
+
+
+#inputSection {
+    display: flex;
+}
+
+#operations {
+    display: flex;
+    flex-flow: column wrap;
+}
+
+#constantButtons {
+    flex-grow: 1;
+}
+
+.constantSection {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+}

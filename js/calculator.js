@@ -19,7 +19,6 @@ document.addEventListener("DOMContentLoaded", () => {
         "=": solveCurrentEquation,
         "C": () => updateShownNumber(removeLastDigit(shownNumberString())),
         "CE": clearCurrentEquation
-
     };
 
     clearShownNumber();

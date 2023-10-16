@@ -1,23 +1,36 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
-<head>
-    <title>Calculator</title>
+    <head>
+        <title>Calculator</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta charset="UTF-8">
 
-    <link rel="stylesheet" href="calculator.css">
-</head>
+        <link rel="stylesheet" href="./css/calculator.css">
+        <link rel="stylesheet" href="./css/buttons.css">
+    </head>
 
-<body>
-    <p id="shownNumber"></p>
+    <body>
+        <article id="calculator">
+            <p id="shownNumber"></p>
 
-    <section id="digits"></section>
+            <section id="inputSection">
+                <section id="constantButtons">
+                    <section class="constantSection" id="equationManagementOperations"></section>
 
-    <section id="operations"></section>
-</body>
+                    <section class="constantSection" id="digits"></section>
+                </section>
 
-<script src="./numberStringOperations.js" type="module"></script>
-<script src="./shownNumber.js" type="module"></script>
-<script src="./equation.js" type="module"></script>
-<script src="./buttons.js" type="module"></script>
-<script src="./calculator.js" type="module"></script>
+                <section id="operations"></section>
+            </section>
+        </article>
+    </body>
+
+<script src="./js/numberStringOperations.js" type="module"></script>
+<script src="./js/shownNumber.js" type="module"></script>
+<script src="./js/equation.js" type="module"></script>
+<script src="./js/buttons.js" type="module"></script>
+<script src="./js/calculator.js" type="module"></script>
 
 </html>

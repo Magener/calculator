@@ -1,0 +1,37 @@
+.operationButton {
+    min-height: calc(100% / var(--operationsPerColumn));
+    min-width: 8vw;
+
+    background-color: orange;
+    
+    color: white;
+}
+
+.digitButton {
+    min-width: calc(100% / var(--digitsPerRow));
+
+    background-color: lightgrey;
+    color: black;
+}
+
+.equationManagementButton {
+    min-width: calc(100% / var(--managementOperationsPerRow));
+
+    background-color: darkgrey;
+    color: white;
+}
+
+
+.resizable {
+    padding: 0%;
+    flex-grow: 1;
+}
+
+button {
+    border-radius: 2vw;
+    border-width: 0.4vw;
+    border-color:  grey;
+    border-style: solid;
+
+    font-size: 4.2vw;
+}
