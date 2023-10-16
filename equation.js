@@ -1,9 +1,13 @@
 class Equation {
 
     constructor() {
+        this.reset();
+    };
+
+    reset() {
         this.setLeftValue(0);
         this.setOperationComputation(() => 0);
-    };
+    }
 
     solve(rightValue) {
         return this.operationComputation(this.leftValue, rightValue)
