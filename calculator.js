@@ -1,29 +1,30 @@
 import { shownNumberString, updateShownNumber, valueOfShownNumber, clearShownNumber } from "./shownNumber.js";
 
-import {initializeOperationButtons, initializeDigitButtons} from "./buttons.js";
+import { initializeOperationButtons, initializeDigitButtons } from "./buttons.js";
 import Equation from "./equation.js";
 import { concatenateDigit, removeLastDigit } from "./numberStringOperations.js";
 
 const currentEquation = new Equation();
+let repeatLastOperation = false;
 
 document.addEventListener("DOMContentLoaded", () => {
-    clearShownNumber();
-
-    initializeDigitButtons((newDigit) => updateShownNumber(concatenateDigit(shownNumberString(), newDigit)));
-
     const computationOperations = {
         "+": (left, right) => left + right,
         "-": (left, right) => left - right,
         "*": (left, right) => left * right,
         "/": (left, right) => left / right,
     };
-    
-    let equationManagementOperations = {
-        "=": () => updateShownNumber(currentEquation.solve(valueOfShownNumber())),
+
+    const equationManagementOperations = {
+        "=": solveCurrentEquation,
         "C": () => updateShownNumber(removeLastDigit(shownNumberString())),
         "CE": clearCurrentEquation
-    
+
     };
+
+    clearShownNumber();
+
+    initializeDigitButtons((newDigit) => updateShownNumber(concatenateDigit(shownNumberString(), newDigit)));
 
     initializeOperationButtons(equationManagementOperations, computationOperations, selectOperation);
 });
@@ -33,9 +34,20 @@ const clearCurrentEquation = () => {
     currentEquation.reset();
 };
 
-//TODO: deal with the bug of the - with the same right value
+const solveCurrentEquation = () => {
+    let result = repeatLastOperation ? currentEquation.resolve() : currentEquation.solve(valueOfShownNumber());
+    
+    updateShownNumber(result);
+    currentEquation.setLeftValue(result);
+
+    repeatLastOperation = true;
+};
+
+
 const selectOperation = (operationComputation) => {
     currentEquation.setLeftValue(valueOfShownNumber());
     currentEquation.setOperationComputation(operationComputation);
-    clearShownNumber();// TODO: perform after adding an operation
+    clearShownNumber();
+
+    repeatLastOperation = false;
 };
